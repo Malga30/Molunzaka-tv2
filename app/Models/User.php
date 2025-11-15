@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -72,5 +73,53 @@ class User extends Authenticatable
         return $this->forceFill([
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
+    }
+
+    /**
+     * Get all profiles for the user.
+     */
+    public function profiles(): HasMany
+    {
+        return $this->hasMany(Profile::class);
+    }
+
+    /**
+     * Check if user has reached maximum profiles (5).
+     */
+    public function hasMaxProfiles(): bool
+    {
+        return $this->profiles()->count() >= 5;
+    }
+
+    /**
+     * Get the number of profiles the user can still create.
+     */
+    public function remainingProfiles(): int
+    {
+        return max(0, 5 - $this->profiles()->count());
+    }
+
+    /**
+     * Get current active profile from session or default.
+     */
+    public function getCurrentProfile(): ?Profile
+    {
+        $profileId = session("user_profile_{$this->id}");
+        if ($profileId) {
+            return $this->profiles()->find($profileId);
+        }
+        return $this->profiles()->first();
+    }
+
+    /**
+     * Set the current active profile.
+     */
+    public function setCurrentProfile(Profile $profile): bool
+    {
+        if ($profile->user_id !== $this->id) {
+            return false;
+        }
+        session(["user_profile_{$this->id}" => $profile->id]);
+        return true;
     }
 }

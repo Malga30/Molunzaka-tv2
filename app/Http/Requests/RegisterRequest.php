@@ -37,7 +37,7 @@ class RegisterRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'email:rfc,dns',
+                'email:rfc',
                 'max:255',
                 'unique:users,email',
             ],
@@ -55,7 +55,8 @@ class RegisterRequest extends FormRequest
             ],
             'phone' => [
                 'nullable',
-                'phone:AUTO',
+                'string',
+                'regex:/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/',
                 'max:20',
             ],
             'date_of_birth' => [

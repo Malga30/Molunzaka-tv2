@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,4 +60,46 @@ Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
     // Resend verification email
     Route::post('/email/resend-verification', [AuthController::class, 'resendVerificationEmail'])
         ->name('auth.resend-verification-authenticated');
+});
+
+// Profile Management Routes (protected)
+Route::middleware('auth:sanctum')->prefix('profiles')->group(function () {
+    // List all profiles for authenticated user
+    Route::get('/', [ProfileController::class, 'index'])
+        ->name('profiles.index');
+
+    // Create a new profile
+    Route::post('/', [ProfileController::class, 'store'])
+        ->name('profiles.store');
+
+    // Get current active profile
+    Route::get('/current', [ProfileController::class, 'current'])
+        ->name('profiles.current');
+
+    // Profile-specific routes (use {profile} for model binding)
+    Route::prefix('{profile}')->group(function () {
+        // Get a specific profile
+        Route::get('/', [ProfileController::class, 'show'])
+            ->name('profiles.show');
+
+        // Update a profile
+        Route::put('/', [ProfileController::class, 'update'])
+            ->name('profiles.update');
+
+        // Delete a profile
+        Route::delete('/', [ProfileController::class, 'destroy'])
+            ->name('profiles.destroy');
+
+        // Switch to a profile
+        Route::post('/switch', [ProfileController::class, 'switch'])
+            ->name('profiles.switch');
+
+        // Update parental controls
+        Route::post('/parental-controls', [ProfileController::class, 'updateParentalControls'])
+            ->name('profiles.update-parental-controls');
+
+        // Update preferences
+        Route::post('/preferences', [ProfileController::class, 'updatePreferences'])
+            ->name('profiles.update-preferences');
+    });
 });
