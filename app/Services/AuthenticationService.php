@@ -13,7 +13,7 @@ class AuthenticationService
      */
     public function register(array $data): User
     {
-        return User::create([
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -21,6 +21,11 @@ class AuthenticationService
             'phone' => $data['phone'] ?? null,
             'date_of_birth' => $data['date_of_birth'] ?? null,
         ]);
+
+        // Assign default 'Subscriber' role to new user
+        RoleAssignmentService::assignDefaultRole($user, 'Subscriber');
+
+        return $user;
     }
 
     /**

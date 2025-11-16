@@ -3,7 +3,7 @@
         'name' => 'malga30/molunzaka-tv2',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '64a4a4aaa128725c6953464f8af90ec3e2c28643',
+        'reference' => 'd602fa4532e4451705520ff50f1251e2dbe6c3d4',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -463,7 +463,7 @@
         'malga30/molunzaka-tv2' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '64a4a4aaa128725c6953464f8af90ec3e2c28643',
+            'reference' => 'd602fa4532e4451705520ff50f1251e2dbe6c3d4',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -979,6 +979,15 @@
             'install_path' => __DIR__ . '/../spatie/laravel-ignition',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'spatie/laravel-permission' => array(
+            'pretty_version' => '6.23.0',
+            'version' => '6.23.0.0',
+            'reference' => '9e41247bd512b1e6c229afbc1eb528f7565ae3bb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-permission',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/console' => array(
             'pretty_version' => 'v6.4.27',
